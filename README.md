@@ -11,7 +11,7 @@ A backend-only application that shortens long URLs and tracks analytics such as 
   - Total number of visits.
   - Timestamp of visits.
   - User agent and IP address of visitors.
-- **RESTful API**: Fully designed for backend use, no frontend required.
+- **RESTful API**: Built using Flask, this API is fully RESTful and follows standard best practices.
 
 ---
 
@@ -19,8 +19,8 @@ A backend-only application that shortens long URLs and tracks analytics such as 
 
 ### Prerequisites
 
-- Python 3.9+
-- SQLite (default database; can be replaced with other SQL databases)
+- Python 3.7+
+- PostgreSQL (default database; can be replaced with other SQL databases)
 - Pipenv or virtualenv (optional)
 
 ### Installation
