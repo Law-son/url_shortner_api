@@ -3,11 +3,13 @@ from flask_restful import Api, Resource
 from app import db
 from app.models import URL, Visit
 from app.utils import generate_short_url
+from app.auth import UserRegister, UserLogin, token_required
 
 api = Api()
 
 class ShortenURL(Resource):
-    def post(self):
+    @token_required
+    def post(current_user):
         """Handles the shortening of a URL."""
         data = request.get_json()  # Ensures valid JSON data
         original_url = data.get('original_url')
@@ -48,7 +50,8 @@ class RedirectURL(Resource):
 
 
 class Analytics(Resource):
-    def get(self, short_url):
+    @token_required
+    def get(current_user, short_url):
         """Fetches analytics for a specific short URL."""
         url = URL.query.filter_by(short_url=short_url).first()
         if not url:
@@ -71,3 +74,5 @@ class Analytics(Resource):
 api.add_resource(ShortenURL, '/shorten')
 api.add_resource(RedirectURL, '/<string:short_url>')
 api.add_resource(Analytics, '/<string:short_url>/analytics')
+api.add_resource(UserRegister, '/register')
+api.add_resource(UserLogin, '/login')
