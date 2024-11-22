@@ -10,7 +10,7 @@ api = Api()
 class ShortenURL(Resource):
     @token_required
     def post(current_user):
-        """Handles the shortening of a URL."""
+        """Handles the shortening of a URL"""
         data = request.get_json()  # Ensures valid JSON data
         original_url = data.get('original_url')
         
@@ -32,7 +32,7 @@ class ShortenURL(Resource):
 
 class RedirectURL(Resource):
     def get(self, short_url):
-        """Handles redirection from short URL to original URL."""
+        """Handles redirection from short URL to original URL"""
         url = URL.query.filter_by(short_url=short_url).first()
         if not url:
             return {'error': 'URL not found'}, 404
@@ -52,7 +52,7 @@ class RedirectURL(Resource):
 class Analytics(Resource):
     @token_required
     def get(current_user, short_url):
-        """Fetches analytics for a specific short URL."""
+        """Fetches analytics for a specific short URL"""
         url = URL.query.filter_by(short_url=short_url).first()
         if not url:
             return {'error': 'URL not found'}, 404
