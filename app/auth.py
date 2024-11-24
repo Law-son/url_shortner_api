@@ -27,11 +27,11 @@ def token_required(f):
 class UserRegister(Resource):
     def post(self):
         data = request.get_json()
-        if not data or not data.get('username') or not data.get('password'):
-            return {'message': 'Username and password are required!'}, 400
+        if not data or not data.get('email') or not data.get('password'):
+            return {'message': 'Email and password are required!'}, 400
 
         hashed_password = generate_password_hash(data['password'], method='sha256')
-        new_user = User(username=data['username'], password=hashed_password)
+        new_user = User(email=data['email'], password=hashed_password)
 
         try:
             db.session.add(new_user)
@@ -43,12 +43,12 @@ class UserRegister(Resource):
 class UserLogin(Resource):
     def post(self):
         data = request.get_json()
-        if not data or not data.get('username') or not data.get('password'):
-            return {'message': 'Username and password are required!'}, 400
+        if not data or not data.get('email') or not data.get('password'):
+            return {'message': 'Email and password are required!'}, 400
 
-        user = User.query.filter_by(username=data['username']).first()
+        user = User.query.filter_by(email=data['email']).first()
         if not user or not check_password_hash(user.password, data['password']):
-            return {'message': 'Invalid username or password!'}, 401
+            return {'message': 'Invalid email or password!'}, 401
 
         token = generate_jwt(user.id)
         return {'token': token}, 200
