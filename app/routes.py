@@ -7,6 +7,11 @@ from app.auth import UserRegister, UserLogin, token_required
 
 api = Api()
 
+class HelloWorld(Resource):
+    def get(self):
+        """Returns a simple 'Hello, World!' message"""
+        return {'message': 'Hello, World!'}
+
 class ShortenURL(Resource):
     @token_required
     def post(current_user):
@@ -71,8 +76,10 @@ class Analytics(Resource):
 
 
 # Register resources with the Flask-RESTful API
+api.add_resource(HelloWorld, '/')
 api.add_resource(ShortenURL, '/shorten')
 api.add_resource(RedirectURL, '/<string:short_url>')
 api.add_resource(Analytics, '/<string:short_url>/analytics')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserLogin, '/login')
+
