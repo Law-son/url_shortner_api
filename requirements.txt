@@ -16,6 +16,7 @@ MarkupSafe==3.0.2
 marshmallow==3.23.1
 packaging==24.2
 psycopg2-binary @ file:///C:/Users/buaba/Downloads/psycopg2_binary-2.9.10-cp312-cp312-win_amd64.whl#sha256=18c5ee682b9c6dd3696dad6e54cc7ff3a1a9020df6a5c0f861ef8bfd338c3ca0
+PyJWT==2.10.0
 python-dotenv==1.0.1
 pytz==2024.2
 six==1.16.0

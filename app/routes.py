@@ -23,7 +23,7 @@ class ShortenURL(Resource):
             return {'short_url': existing_url.short_url}, 200
 
         # Generate unique short URL
-        short_url = generate_short_url()
+        short_url = generate_short_url(original_url=original_url)
         new_url = URL(original_url=original_url, short_url=short_url)
         db.session.add(new_url)
         db.session.commit()
