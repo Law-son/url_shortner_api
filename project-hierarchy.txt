@@ -1,0 +1,23 @@
+url_shortner_api
+├─ .env
+├─ .gitignore
+├─ app
+│  ├─ auth.py
+│  ├─ models.py
+│  ├─ routes.py
+│  ├─ serializers.py
+│  ├─ utils.py
+│  └─ __init__.py
+├─ config.py
+├─ CUsersbuaba.configgit
+├─ instance
+├─ LICENSE
+├─ migrations
+│  ├─ alembic.ini
+│  ├─ env.py
+│  ├─ README
+│  ├─ script.py.mako
+│  └─ versions
+├─ README.md
+├─ requirements.txt
+└─ run.py
