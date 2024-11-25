@@ -14,7 +14,7 @@ class HelloWorld(Resource):
 
 class ShortenURL(Resource):
     @token_required
-    def post(current_user):
+    def post(self, current_user):
         """Handles the shortening of a URL"""
         data = request.get_json()  # Ensures valid JSON data
         original_url = data.get('original_url')
@@ -22,16 +22,21 @@ class ShortenURL(Resource):
         if not original_url:
             return {'error': 'Original URL is required'}, 400
 
-        # Check if URL already exists
-        existing_url = URL.query.filter_by(original_url=original_url).first()
+        # Check if the URL already exists for this user
+        existing_url = URL.query.filter_by(original_url=original_url, user_id=current_user.id).first()
         if existing_url:
             return {'short_url': existing_url.short_url}, 200
 
-        # Generate unique short URL
+        # Generate a unique short URL
         short_url = generate_short_url(original_url=original_url)
-        new_url = URL(original_url=original_url, short_url=short_url)
+        new_url = URL(
+            original_url=original_url,
+            short_url=short_url,
+            user_id=current_user.id  # Associate URL with the current user
+        )
         db.session.add(new_url)
         db.session.commit()
+        
         return {'short_url': short_url}, 201
 
 
@@ -56,12 +61,15 @@ class RedirectURL(Resource):
 
 class Analytics(Resource):
     @token_required
-    def get(current_user, short_url):
-        """Fetches analytics for a specific short URL"""
-        url = URL.query.filter_by(short_url=short_url).first()
+    def get(self, current_user, short_url):
+        """Fetches analytics for a specific short URL owned by the current user."""
+        # Filter by both the short_url and the current_user's ID
+        url = URL.query.filter_by(short_url=short_url, user_id=current_user.id).first()
+        
         if not url:
-            return {'error': 'URL not found'}, 404
+            return {'error': 'URL not found or access denied'}, 404
 
+        # Build analytics response
         analytics = {
             'total_visits': len(url.visits),
             'visits': [
