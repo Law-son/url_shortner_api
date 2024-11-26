@@ -9,7 +9,7 @@ import jwt
 
 def token_required(f):
     @wraps(f)
-    def decorated(*args, **kwargs):
+    def decorated(self, *args, **kwargs):
         token = request.headers.get('Authorization')
         if not token:
             return {'message': 'Token is missing!'}, 401
@@ -25,8 +25,11 @@ def token_required(f):
             return {'message': 'Invalid token!'}, 401
         except Exception as e:
             return {'message': f"An unexpected error occurred: {str(e)}"}, 500
-        return f(current_user, *args, **kwargs)
+        
+        # Pass self explicitly as the first argument
+        return f(self, current_user, *args, **kwargs)
     return decorated
+
 
 class UserRegister(Resource):
     def post(self):

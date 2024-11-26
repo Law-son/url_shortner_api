@@ -16,6 +16,7 @@ class ShortenURL(Resource):
     @token_required
     def post(self, current_user):
         """Handles the shortening of a URL"""
+        # print(f"DEBUG: Current user: {current_user}, Type: {type(current_user)}")
         data = request.get_json()  # Ensures valid JSON data
         original_url = data.get('original_url')
         
